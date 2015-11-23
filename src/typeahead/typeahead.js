@@ -167,6 +167,10 @@ var Typeahead = (function() {
     },
 
     _onTabKeyed: function onTabKeyed(type, $e) {
+      if (this.input.getQuery() === '') {
+        return;
+      }
+
       var $selectable;
 
       if ($selectable = this.menu.getActiveSelectable()) {
