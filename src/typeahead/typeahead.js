@@ -167,13 +167,19 @@ var Typeahead = (function() {
     },
 
     _onTabKeyed: function onTabKeyed(type, $e) {
-      if (this.input.getQuery() === '') {
-        return;
+      var $selectable, inputVal;
+
+      if (this.getVal() === '') {     
+          inputVal = this.input.getInputValue();
+          if(inputVal === '')   return;
+          $selectable = this.menu._getSelectables().filter( function(){  return  $(this).text() === inputVal; });
       }
 
-      var $selectable;
-
-      if ($selectable = this.menu.getActiveSelectable()) {
+      if ($selectable && $selectable.length) {
+          this.select($selectable) && $e.preventDefault();
+      } 
+      
+      else if ($selectable = this.menu.getActiveSelectable()) {
         this.select($selectable) && $e.preventDefault();
       }
 
