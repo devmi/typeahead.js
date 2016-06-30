@@ -2274,6 +2274,30 @@
                     }, www);
                     $input.data(keys.www, www);
                     $input.data(keys.typeahead, typeahead);
+                    
+                    //fix to handle mouse and keyboard selection highlight conflicts
+                    //author: @devmi
+                    //see https://github.com/twitter/typeahead.js/issues/1512
+                    handleMouseKeyboardCursorConflicts();
+                    function handleMouseKeyboardCursorConflicts() {
+                        var onHoverIn = function (e) {
+                            var $ttSelectable = $(this);
+                            menu.setCursor($ttSelectable);
+                            input.setInputValue($ttSelectable.text());
+                        };
+                        var onHoverOut = function (e) {
+                            menu._removeCursor();
+                            input.resetInputValue();
+                            typeahead._updateHint();
+                        };
+                        var onRender = function (e) {
+                            $input.parents('.twitter-typeahead').find('.tt-selectable')
+                                .off('mouseenter mouseleave')
+                                .hover(onHoverIn, onHoverOut);
+                        };
+                        $input.on("typeahead:render", onRender);
+                    }
+                    //end of fix
                 }
             },
             isEnabled: function isEnabled() {
