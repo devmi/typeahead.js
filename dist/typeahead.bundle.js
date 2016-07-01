@@ -2291,7 +2291,7 @@
                             typeahead._updateHint();
                         };
                         var onRender = function (e) {
-                            $input.parents('.twitter-typeahead').find('.tt-selectable')
+                            menu.$node.find('.'  + input.classes.selectable)
                                 .off('mouseenter mouseleave')
                                 .hover(onHoverIn, onHoverOut);
                         };
